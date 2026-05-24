@@ -156,7 +156,7 @@
 
   <div class="card">
 
-    <div class="title">蝦皮連結轉換器測試</div>
+    <div class="title">蝦皮連結轉換器-測試</div>
 
     <div class="subtitle">
       貼上蝦皮商品連結<br>
@@ -208,49 +208,28 @@ function convertLink() {
 
   if (!input) {
 
-    alert('請先貼上蝦皮連結');
+    alert('請先貼上蝦皮商品連結');
     return;
 
   }
 
   try {
 
-    const url = new URL(input);
+    // URL encode
+    const encodedUrl = encodeURIComponent(input);
 
-    // 替換成你的 affiliate
-    url.searchParams.set(
-      'mmp_pid',
-      `an_${affiliateId}`
-    );
+    // Shopee 官方 redirect
+    finalUrl =
+      `https://s.shopee.tw/an_redir?origin_link=${encodedUrl}&affiliate_id=${affiliateId}`;
 
-    url.searchParams.set(
-      'utm_source',
-      `an_${affiliateId}`
-    );
-
-    url.searchParams.set(
-      'utm_medium',
-      'affiliates'
-    );
-
-    // 如果沒有就補上
-    if (!url.searchParams.get('utm_campaign')) {
-
-      url.searchParams.set(
-        'utm_campaign',
-        'id_affiliate'
-      );
-
-    }
-
-    finalUrl = url.toString();
-
+    // 顯示結果
     document.getElementById('result').innerHTML = `
       <a href="${finalUrl}" target="_blank">
         ${finalUrl}
       </a>
     `;
 
+    // 顯示按鈕
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('copyBtn').style.display = 'block';
     document.getElementById('openBtn').style.display = 'block';
@@ -270,7 +249,7 @@ function convertLink() {
 
 }
 
-// 複製
+// 一鍵複製
 async function copyLink() {
 
   try {
