@@ -207,43 +207,50 @@ function convertLink() {
   const input = document.getElementById('input').value.trim();
 
   if (!input) {
+
     alert('請先貼上蝦皮連結');
     return;
+
   }
 
-  // 清除原本參數
-  const cleanUrl = input.split('?')[0];
+  try {
 
-  // 建立 affiliate 參數
-  const params = new URLSearchParams({
-    '__mobile__': '1',
-    'mmp_pid': `an_${affiliateId}`,
-    'utm_source': `an_${affiliateId}`,
-    'utm_medium': 'affiliates',
-    'utm_campaign': 'id_affiliate',
-    'utm_content': '----',
-    'utm_term': Date.now().toString()
-  });
+    // 建立 URL 物件
+    const url = new URL(input);
 
-  // 組合新網址
-  finalUrl = `${cleanUrl}?${params.toString()}`;
+    // 保留原始參數
+    url.searchParams.set('mmp_pid', `an_${affiliateId}`);
+    url.searchParams.set('utm_source', `an_${affiliateId}`);
+    url.searchParams.set('utm_medium', 'affiliates');
+    url.searchParams.set('utm_campaign', 'id_affiliate');
 
-  // 顯示結果
-  document.getElementById('result').innerHTML = `
-    <a href="${finalUrl}" target="_blank">
-      ${finalUrl}
-    </a>
-  `;
+    // 產生新網址
+    finalUrl = url.toString();
 
-  // 顯示按鈕
-  document.getElementById('resultBox').style.display = 'block';
-  document.getElementById('copyBtn').style.display = 'block';
-  document.getElementById('openBtn').style.display = 'block';
+    // 顯示結果
+    document.getElementById('result').innerHTML = `
+      <a href="${finalUrl}" target="_blank">
+        ${finalUrl}
+      </a>
+    `;
 
-  // 自動跳轉
-  setTimeout(() => {
-    window.location.href = finalUrl;
-  }, 1000);
+    document.getElementById('resultBox').style.display = 'block';
+    document.getElementById('copyBtn').style.display = 'block';
+    document.getElementById('openBtn').style.display = 'block';
+
+    // 自動跳轉
+    setTimeout(() => {
+
+      window.location.href = finalUrl;
+
+    }, 1000);
+
+  } catch (error) {
+
+    alert('網址格式錯誤');
+
+  }
+
 }
 
 // 一鍵複製
@@ -256,7 +263,9 @@ async function copyLink() {
     document.getElementById('successText').style.display = 'block';
 
     setTimeout(() => {
+
       document.getElementById('successText').style.display = 'none';
+
     }, 1800);
 
   } catch (err) {
@@ -264,17 +273,21 @@ async function copyLink() {
     alert('複製失敗');
 
   }
+
 }
 
 // 開啟蝦皮
 function openShopee() {
 
   if (!finalUrl) {
+
     alert('請先轉換連結');
     return;
+
   }
 
   window.location.href = finalUrl;
+
 }
 
 </script>
