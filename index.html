@@ -215,19 +215,36 @@ function convertLink() {
 
   try {
 
-    // 建立 URL 物件
     const url = new URL(input);
 
-    // 保留原始參數
-    url.searchParams.set('mmp_pid', `an_${affiliateId}`);
-    url.searchParams.set('utm_source', `an_${affiliateId}`);
-    url.searchParams.set('utm_medium', 'affiliates');
-    url.searchParams.set('utm_campaign', 'id_affiliate');
+    // 替換成你的 affiliate
+    url.searchParams.set(
+      'mmp_pid',
+      `an_${affiliateId}`
+    );
 
-    // 產生新網址
+    url.searchParams.set(
+      'utm_source',
+      `an_${affiliateId}`
+    );
+
+    url.searchParams.set(
+      'utm_medium',
+      'affiliates'
+    );
+
+    // 如果沒有就補上
+    if (!url.searchParams.get('utm_campaign')) {
+
+      url.searchParams.set(
+        'utm_campaign',
+        'id_affiliate'
+      );
+
+    }
+
     finalUrl = url.toString();
 
-    // 顯示結果
     document.getElementById('result').innerHTML = `
       <a href="${finalUrl}" target="_blank">
         ${finalUrl}
@@ -243,9 +260,9 @@ function convertLink() {
 
       window.location.href = finalUrl;
 
-    }, 1000);
+    }, 800);
 
-  } catch (error) {
+  } catch (err) {
 
     alert('網址格式錯誤');
 
@@ -253,7 +270,7 @@ function convertLink() {
 
 }
 
-// 一鍵複製
+// 複製
 async function copyLink() {
 
   try {
