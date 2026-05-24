@@ -156,7 +156,7 @@
 
   <div class="card">
 
-    <div class="title">蝦皮連結轉換器-測試</div>
+    <div class="title">蝦皮連結轉換器-測試6</div>
 
     <div class="subtitle">
       貼上蝦皮商品連結<br>
@@ -215,12 +215,12 @@ function convertLink() {
 
   try {
 
-    // URL encode
+    // encode 商品網址
     const encodedUrl = encodeURIComponent(input);
 
-    // Shopee 官方 redirect
+    // Shopee Universal Affiliate Link
     finalUrl =
-      `https://s.shopee.tw/an_redir?origin_link=${encodedUrl}&affiliate_id=${affiliateId}`;
+      `https://s.shopee.tw/universal-link?deep_and_deferred=1&affiliate_id=${affiliateId}&redirect=${encodedUrl}`;
 
     // 顯示結果
     document.getElementById('result').innerHTML = `
@@ -229,7 +229,7 @@ function convertLink() {
       </a>
     `;
 
-    // 顯示按鈕
+    // 顯示區塊
     document.getElementById('resultBox').style.display = 'block';
     document.getElementById('copyBtn').style.display = 'block';
     document.getElementById('openBtn').style.display = 'block';
